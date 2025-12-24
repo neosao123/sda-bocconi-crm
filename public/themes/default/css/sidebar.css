@@ -1,0 +1,73 @@
+/* Sidebar CSS */
+
+.left-sidebar,
+.sidebar-nav,
+.settings .left-sidebar .sidebar-nav {
+    /* background-color: #1c3f7f !important; */
+    border-right: none;
+}
+
+.settings .navbar-header {
+    width: 220px;
+}
+
+
+/* .sidebar-nav ul li a {
+  color: #b1b7c1;
+}
+
+.sidebar-nav ul li a:hover {
+  color: #ffffff;
+}
+
+.sidebar-nav>ul>li.active>a {
+  color: #fff;
+} */
+
+
+
+/* 
+  .sidebar-nav>ul>li.active>a {
+    color: #fdfdfd;
+    border-color: #ffffff;
+    background: #647499;
+  }
+  
+  .sidebar-nav>ul>li>a {
+    color: #ffffff;
+    transition: background-color 0.4s ease-in-out;
+  }
+  
+  .sidebar-nav>ul>li>a:hover,
+  .sidebar-nav>ul>li>a:active {
+    background-color: #647499;
+  }
+  
+  .mini-sidebar .sidebar-nav #sidebarnav>li>ul {
+    background-color: #647499;
+  }
+  
+  .sidebar-nav>ul>li>a>ion-icon,
+  .mini-sidebar .sidebar-nav>ul>li>a>ion-icon {
+    color: #ffffff;
+  } */
+
+.sidebar-nav ul li a {
+    color: #ffffff;
+    transition: all 0.3s ease-in-out;
+}
+
+.sidebar-nav ul li a.active,
+.sidebar-nav ul li a:hover {
+    color: #FFA99F;
+}
+
+.sidebar-nav>ul>li.active>a {
+    color: #FFA99F;
+    border-color: #FFA99F;
+}
+
+.settings .left-sidebar .sidenav-menu-item ul li a.active {
+    color: #fa709a;    
+}
+

@@ -1,0 +1,3 @@
+FirstName,LastName,Email,Title,LeadType,Telephone,Customerid,Source,Description,CompanyName,JobPosition,Street,City,State,ZipCode,Country,Website,GSTIN,lead_custom_field_1,lead_custom_field_111,lead_custom_field_3,lead_custom_field_4,lead_custom_field_5,lead_custom_field_6,lead_custom_field_7,lead_custom_field_8,lead_custom_field_9,lead_custom_field_10
+John,Doe,john.doe@example.com,Testing John,associate,1234567890,CST0027,source-1,some description,,Manager,,,,,,,,custom-1,100,custom-3,custom-4,custom-5,custom-6,custom-7,custom-8,custom-9,custom-10
+Rohit ,Shah,rohit@gmail.com,Store Management,inhouse,9767050608,,Meta Ads,,Rohit Enterprises,Owner,"123, Dabholkar Corner",Kolhapur,Maharashtra,416002,India,rohitenterprises.com,27ACFFA8319R1ZQ,,,,,,,,,,

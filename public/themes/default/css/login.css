@@ -1,0 +1,253 @@
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8efef;
+    cursor: default;
+}
+
+.company__info {
+
+    border-radius: 20px 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    color: #003e68;
+}
+
+.fa-android {
+    font-size: 3em;
+}
+
+.logo-image {
+    border-radius: 8px;
+    padding: 7.5px;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+    background-color: #003e68;
+}
+
+h2.logo-title {
+    color: #003e68;
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.col-md-4.text-center.company__info {
+    display: flex;
+}
+
+
+.form-container {
+    height: 100vh;
+    width: 100%;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    overflow: hidden;
+    position: relative;
+}
+
+form#loginForm {
+    width: 50%;
+}
+
+.login-container,
+.signup-container {
+    width: 50%;
+    padding: 40px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    transition: all 500ms ease;
+
+}
+
+.signup-container {
+    transform: scale(0);
+}
+
+.title {
+    font-size: 22px;
+    font-weight: 650;
+    color: #212529;
+}
+
+.desc {
+    font-size: 12px;
+}
+
+.input-container {
+    margin-top: 20px;
+    width: 100%;
+    border-radius: 10px;
+    border: 2px solid #003e68;
+    display: flex;
+    align-items: center;
+}
+
+input {
+    height: 100%;
+    width: 100%;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    padding: 0.5rem 0.75rem;
+    font-family: "Roboto", sans-serif;
+    background-color: transparent;
+}
+
+input::placeholder {
+    color: #003e68;
+    opacity: 1;
+}
+
+input:focus {
+    border: none;
+    outline: none;
+}
+
+.account-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.account-controls>a {
+    text-decoration: none;
+    color: #003e68;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+button.continue {
+    width: 100%;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border: none;
+    background: #003e68;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: transform 500ms ease;
+    box-shadow: 0 3px 10px -5px #003e68;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.remember {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+input#remember_me {
+    height: 10px;
+    width: 10px;
+
+}
+
+span.gray-line {
+    width: 100%;
+    height: 2px !important;
+    background-color: #bfc0c9;
+    border-radius: 10px;
+    display: block;
+    margin-top: 25px;
+}
+
+.other-login-text {
+    text-align: center;
+    font-size: 12px;
+    color: #64656a;
+}
+
+.placeholder-banner {
+    /* width: 50%;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    transition: all 500ms ease;
+    z-index: 4;
+    display: flex;
+    justify-content: center;
+    align-items: center; */
+
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    transition: all 500ms ease;
+    z-index: 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.banner {
+    /* width: 500px;
+    height: 500px;
+    object-fit: cover;
+    transition: transform 500ms ease;
+    background-color: #fff;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding: 30px 20px; */
+
+    width: auto;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 500ms ease;
+    background-color: #fff;
+}
+
+@media only screen and (max-width:768px) {
+    .placeholder-banner {
+        display: none;
+    }
+
+    .login-container,
+    .signup-container {
+        width: 100%;
+    }
+}
+
+
+@media only screen and (max-width:555px) {
+    .account-controls {
+        flex-direction: column;
+        justify-content: start;
+        align-items: start;
+        gap: 10px;
+    }
+}

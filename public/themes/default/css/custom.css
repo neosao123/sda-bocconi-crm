@@ -1,0 +1,295 @@
+* {
+    /* background-color: #000000 !important;
+  border: 1px solid red !important;
+  color: #00f510 !important */
+}
+
+.settings .navbar-header {
+    /* background-color: #003e68;
+  border-color: #003e68; */
+}
+
+.settings .left-sidebar {
+    /* background-color: #003e68; */
+}
+
+.left-sidebar {
+    position: absolute;
+    width: 220px;
+}
+
+.navbar-header {
+    width: 220px;
+}
+
+.topbar .navbar-header {
+    background: #003e68;
+    color: white;
+}
+
+.topbar .navbar-collapse {
+    border-bottom: none;
+}
+
+div#main-top-nav-bar {
+    background: #f0f1f3;
+}
+
+.top-search-bar .top-search-container input {
+    border-radius: 10px;
+}
+
+.card-no-border .card {
+    border: 1px solid #f0f1f3;
+    border-radius: 10px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.header-search {
+    border-radius: 10px;
+}
+
+.kanban .kanban-wrapper .boards .board .board-body {
+    border-radius: 10px;
+}
+
+.card-no-border .card {
+    border-radius: 10px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.ticket-panel .x-list.active {
+    color: #003e68;
+}
+
+.ticket-panel .x-list.active {
+    color: #003e68;
+}
+
+.chat-main-box .chat-left-aside .chat-left-inner .style-none li a {
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+.dropdown-menu {
+    border-radius: 10px;
+}
+
+.btn-danger,
+.btn-danger.disabled {
+    background: #003e68;
+    border: 1px solid #003e68;
+}
+
+.btn-danger,
+.btn-danger.disabled:hover {
+    background: #003e68 !important;
+    border: 1px solid #003e68 !important;
+}
+
+.dashboard-events {
+    height: 200px;
+}
+
+.label-rounded {
+    border-radius: 10px;
+}
+
+button.btn-create {
+    background-color: #003e68;
+    color: white;
+    padding: 5px 8px;
+    border-radius: 10px;
+    border: 1px solid;
+}
+
+.topbar .top-navbar .navbar-header {
+    border-bottom: none;
+}
+
+/* Navbar Brand - Logo */
+/* Developer: Shreyas M */
+.navbar-brand img {
+    /* border-radius: 8px; */
+    /* box-shadow: inset 0 0 0 15px #fff; */
+    margin: 0 10px 0 0;
+    max-width: 185px;
+    padding: 2px;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+}
+
+
+.invoice .invoice-wrapper,
+.proforma_invoice .invoice-wrapper,
+.estimate .invoice-wrapper {
+    max-width: 1200px;
+}
+
+@media (min-width: 768px) {
+    .mini-sidebar .sidebar-nav #sidebarnav>li.has-submenu:hover>a {
+        width: 220px !important;
+    }
+}
+
+.topbar .dropdown .dropdown-menu {
+    margin: .5rem .5rem;
+    padding: .5rem;
+}
+
+.topbar .dropdown-menu a.dropdown-item.dropdown-item-iconed {
+    padding: 5px 20px;
+    transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -webkit-transition: all 0.4s ease-in-out;
+}
+
+.topbar .dropdown-menu a.dropdown-item.dropdown-item-iconed:hover {
+    font-weight: 600;
+    color: #f0f1f3;
+    background: linear-gradient(to right, #667eea, #764ba2);
+}
+
+.list-actions-button {
+    height: 32px;
+    border-radius: 12px;
+    line-height: 1;
+}
+
+.uppercaseText {
+    text-transform: uppercase !important;
+}
+
+
+.textWrapTitle {
+    display: block;
+    max-width: 400px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+.card-group {
+    gap: 1rem
+}
+
+.card-group .card {
+    border-radius: 1rem !important;
+}
+
+button .import {
+    color: #027a52;
+}
+
+button.import-border {
+    border: 2px solid #027a52;
+}
+
+button .export {
+    color: #0a4f6e;
+}
+
+button.export-border {
+    border: 2px solid #0a4f6e;
+}
+
+button.filter-border {
+    border: 2px solid #474747;
+}
+
+button .filter {
+    color: #474747;
+}
+
+button.person-border {
+    border: 2px solid #aa4e10;
+}
+
+button .person {
+    color: #aa4e10;
+}
+
+button.archive-border {
+    border: 2px solid #667eea;
+}
+
+button .archive {
+    color: #667eea;
+}
+
+button.grid-border {
+    border: 2px solid #520055;
+}
+
+button .grid {
+    color: #520055;
+}
+
+button.trend-up-border {
+    border: 2px solid #970323;
+}
+
+button .trend-up {
+    color: #970323;
+}
+
+button.list-border {
+    border: 2px solid #296d62;
+}
+
+button .list {
+    color: #296d62;
+}
+
+button.sort-border {
+    border: 2px solid #a78e03;
+}
+
+button .sort {
+    color: #a78e03;
+}
+
+button.check-grid-border {
+    border: 2px solid #057a05;
+}
+
+button .check-grid {
+    color: #057a05;
+}
+
+button.excel-border {
+    border: 2px solid #057a05;
+    color: #057a05;
+}
+
+button.csv-border {
+    border: 2px solid #042563;
+    color: #042563;
+}
+
+button.print-border {
+    border: 2px solid #d65113;
+    color: #d65113;
+}
+
+button.trash-border,
+button.delete-border {
+    border: 2px solid #ce0c05;
+}
+
+button .trash,
+button .delete {
+    color: #ce0c05;
+}
+
+button.note-border {
+    border: 2px solid #201f5e;
+}
+
+button .note {
+    color: #201f5e;
+}

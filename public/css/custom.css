@@ -1,0 +1,20 @@
+
+button>.user{
+    color: #e100ff;
+  }
+  button>.grid{
+    color: #7460ee;
+  }
+  button>.archive{
+    color: black;
+  }
+  button>.check{
+    color: #6c757d;
+  }
+  button>.up{
+    color: #24d2b5;
+  }
+  .sidebar-nav ul li a {
+    color: #626878;
+    padding: 3px 35px 3px 15px !important;
+  }

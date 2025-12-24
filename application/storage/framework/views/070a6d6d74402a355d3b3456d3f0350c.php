@@ -1,0 +1,62 @@
+<!--CRUMBS CONTAINER (RIGHT)-->
+<div class="col-md-12  col-lg-7 p-b-9 align-self-center text-right <?php echo e($page['list_page_actions_size'] ?? ''); ?> <?php echo e($page['list_page_container_class'] ?? ''); ?>" id="list-page-actions-container">
+  <div id="list-page-actions">
+    <!--SEARCH BOX-->
+    <?php if(config('visibility.list_page_actions_search')): ?>
+      <div class="header-search" id="header-search">
+        <i class="bi bi-search"></i>
+        <input type="text" class="form-control search-records list-actions-search" data-url="<?php echo e($page['dynamic_search_url'] ?? ''); ?>" data-type="form" data-ajax-type="post" data-form-id="header-search"
+          id="search_query" name="search_query" placeholder="<?php echo e(cleanLang(__('lang.search'))); ?>">
+      </div>
+    <?php endif; ?>
+
+    <!--IMPORTING-->
+    <?php if(config('visibility.list_page_actions_importing')): ?>
+      <button type="button" title="<?php echo e(cleanLang(__('lang.import_clients'))); ?>" id="clients-import-button"
+        class="p-t-5 data-toggle-tooltip list-actions-button btn btn-page-actions import-border waves-effect waves-dark edit-add-modal-button js-ajax-ux-request reset-target-modal-form"
+        data-toggle="modal" data-target="#commonModal" data-footer-visibility="hidden" data-top-padding="none" data-action-url="<?php echo e(url('import/clients')); ?>" data-action-method="POST"
+        data-loading-target="commonModalBody" data-action-ajax-loading-target="commonModalBody" data-modal-title="<?php echo app('translator')->get('lang.import_clients'); ?>" data-url="<?php echo e(url('import/clients/create')); ?>">
+        <i class="bi bi-cloud-arrow-down import"></i>
+      </button>
+    <?php endif; ?>
+
+    <!--EXPORT-->
+    <?php if(config('visibility.list_page_actions_exporting')): ?>
+      <button type="button" data-toggle="tooltip" title="<?php echo app('translator')->get('lang.export_clients'); ?>" class="list-actions-button btn btn-page-actions export-border  waves-effect waves-dark js-toggle-side-panel"
+        data-target="sidepanel-export-clients">
+        <i class="bi bi-cloud-arrow-up export"></i>
+      </button>
+    <?php endif; ?>
+
+
+    <!--FILTERING-->
+    <?php if(config('visibility.list_page_actions_filter_button')): ?>
+      <button type="button" data-toggle="tooltip" title="<?php echo e(cleanLang(__('lang.filter'))); ?>"
+        class="list-actions-button btn btn-page-actions filter-border waves-effect waves-dark js-toggle-side-panel" data-target="<?php echo e($page['sidepanel_id'] ?? ''); ?>">
+        <i class="bi bi-funnel filter"></i>
+      </button>
+    <?php endif; ?>
+
+    <!--ADD NEW ITEM-->
+    <?php if(config('visibility.list_page_actions_add_button')): ?>
+      <button type="button" class="btn-create edit-add-modal-button js-ajax-ux-request reset-target-modal-form <?php echo e($page['add_button_classes'] ?? ''); ?>" data-toggle="modal" data-target="#commonModal"
+        data-url="<?php echo e($page['add_modal_create_url'] ?? ''); ?>" data-loading-target="commonModalBody" data-modal-title="<?php echo e($page['add_modal_title'] ?? ''); ?>"
+        data-action-url="<?php echo e($page['add_modal_action_url'] ?? ''); ?>" data-action-method="<?php echo e($page['add_modal_action_method'] ?? ''); ?>"
+        data-action-ajax-class="<?php echo e($page['add_modal_action_ajax_class'] ?? ''); ?>" data-modal-size="<?php echo e($page['add_modal_size'] ?? ''); ?>"
+        data-action-ajax-loading-target="<?php echo e($page['add_modal_action_ajax_loading_target'] ?? ''); ?>" data-save-button-class="<?php echo e($page['add_modal_save_button_class'] ?? ''); ?>"
+        data-project-progress="0">
+        <i class="bi bi-plus-square"></i>
+        <?php echo e(cleanLang(__('lang.new'))); ?>
+
+      </button>
+    <?php endif; ?>
+
+    <!--add new button (link)-->
+    <?php if(config('visibility.list_page_actions_add_button_link')): ?>
+      <a id="fx-page-actions-add-button" type="button" class="btn btn-danger btn-add-circle edit-add-modal-button" href="<?php echo e($page['add_button_link_url'] ?? ''); ?>">
+        <i class="bi bi-plus-square"></i>
+      </a>
+    <?php endif; ?>
+  </div>
+</div>
+<?php /**PATH /home/neosao-nscrmdevelopment/htdocs/nscrmdevelopment.neosao.co.in/application/resources/views/pages/clients/components/misc/list-page-actions.blade.php ENDPATH**/ ?>

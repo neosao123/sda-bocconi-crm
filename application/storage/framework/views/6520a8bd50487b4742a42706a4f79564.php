@@ -1,0 +1,1 @@
+<?php echo cleanEmail($content); ?><?php /**PATH /home/neosao-nscrmdevelopment/htdocs/nscrmdevelopment.neosao.co.in/application/resources/views/pages/emails/template.blade.php ENDPATH**/ ?>

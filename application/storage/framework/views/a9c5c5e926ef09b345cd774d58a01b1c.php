@@ -1,0 +1,2 @@
+<?php echo $__env->make('pages.reports.income.filter', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('pages.reports.income.table', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/neosao-nscrmdevelopment/htdocs/nscrmdevelopment.neosao.co.in/application/resources/views/pages/reports/income/wrapper.blade.php ENDPATH**/ ?>
