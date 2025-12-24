@@ -14,6 +14,7 @@ use App\Models\Task;
 use App\Models\User;
 use App\Models\Client;
 use App\Models\Project;
+use App\Models\CustomerLeads;
 
 class StatsRepository
 {
@@ -23,6 +24,7 @@ class StatsRepository
     protected $tasks;
     protected $projects;
     protected $clients;
+    protected $customer_leads;
 
     /**
      * Inject dependecies
@@ -33,6 +35,7 @@ class StatsRepository
         Task $tasks,
         Project $projects,
         Client $clients,
+        CustomerLeads $customer_leads
     ) {
 
         $this->users = $users;
@@ -40,6 +43,7 @@ class StatsRepository
         $this->projects = $projects;
         $this->leads = $leads;
         $this->clients = $clients;
+        $this->customer_leads = $customer_leads;
     }
 
 
@@ -50,30 +54,40 @@ class StatsRepository
      * @param array $data for filtering
      *         - status  (optional)
      *         - assigned (optional)
-     * @return float
+     * @return array
      */
     public function countLeads($data = [])
     {
 
-        $leads = $this->leads->newQuery();
+        $leadsQuery = $this->leads->newQuery();
+        $customerLeadsQuery = $this->customer_leads->newQuery();
 
-        //default
-        $leads->selectRaw('*');
+        // Exclude converted leads from the main leads table
+        $leadsQuery->where('lead_converted', 'no');
 
         //status
         if (isset($data['status']) && $data['status'] != '') {
-            $leads->where('lead_status', $data['status']);
+            $leadsQuery->where('lead_status', $data['status']);
+            $customerLeadsQuery->where('lead_status', $data['status']);
         }
 
-        //status
-        if (isset($data['assigned']) && is_numeric($data['assigned'])) {
-            request()->merge(['for_assigned_user' => $data['assigned']]);
-            $leads->whereHas('assigned', function ($query) {
-                $query->whereIn('leadsassigned_userid', [request('for_assigned_user')]);
+        //assigned
+        if (isset($data['assigned']) && is_numeric($data['assigned']) && auth()->user()->role->role_leads_scope == 'own') {
+            $assignedUserId = $data['assigned'];
+            $leadsQuery->whereHas('assigned', function ($query) use ($assignedUserId) {
+                $query->where('leadsassigned_userid', $assignedUserId)
+                    ->where('leadsassigned_leadtype', 'lead');
+            });
+            $customerLeadsQuery->whereHas('assigned', function ($query) use ($assignedUserId) {
+                $query->where('leadsassigned_userid', $assignedUserId)
+                    ->where('leadsassigned_leadtype', 'customer_lead');
             });
         }
 
-        return $leads->count();
+        $leadsCount = $leadsQuery->count();
+        $customerLeadsCount = $customerLeadsQuery->count();
+
+        return ["lead_count" => $leadsCount, "customer_lead_count" => $customerLeadsCount];
     }
 
     /**

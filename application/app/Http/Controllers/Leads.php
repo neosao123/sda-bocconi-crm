@@ -1224,22 +1224,30 @@ class Leads extends Controller
      */
     private function applyPermissions($lead = '')
     {
-
-        //sanity - make sure this is a valid lead object
-        if ($lead instanceof \App\Models\Lead) {
-            //edit permissions
-            $lead->permission_edit_lead = $this->leadpermissions->check('edit', $lead);
-            //delete permissions
-            $lead->permission_delete_lead = $this->leadpermissions->check('delete', $lead);
-            //edit participate
-            $lead->permission_participate = $this->leadpermissions->check('participate', $lead);
-        } else if ($lead instanceof \App\Models\CustomerLeads) {
-            $lead->permission_edit_lead = false;
-            //delete permissions
-            $lead->permission_delete_lead = false;
-            //edit participate
-            $lead->permission_participate = false;
+        // Sanity check for a valid lead object
+        if (!($lead instanceof \App\Models\Lead || $lead instanceof \App\Models\CustomerLeads)) {
+            return;
         }
+
+        // If a standard lead is converted, deny all permissions and return.
+        if ($lead instanceof \App\Models\Lead && $lead->lead_converted == 'yes') {
+            $lead->permission_edit_lead = false;
+            $lead->permission_delete_lead = false;
+            $lead->permission_participate = false;
+            return;
+        }
+
+        // if (!($lead instanceof \App\Models\Lead)) {
+        //     request()->merge(['type' => 'lead']);
+        // }
+        // if (!($lead instanceof \App\Models\CustomerLeads)) {
+        //     request()->merge(['type' => 'client']);
+        // }
+
+        // For non-converted leads and customer leads, check and apply permissions.
+        $lead->permission_edit_lead = $this->leadpermissions->check('edit', $lead);
+        $lead->permission_delete_lead = $this->leadpermissions->check('delete', $lead);
+        $lead->permission_participate = $this->leadpermissions->check('participate', $lead);
     }
 
     /**
@@ -2726,7 +2734,6 @@ class Leads extends Controller
      */
     public function updatePosition()
     {
-
         //validation
         if (!request()->filled('status')) {
             abort(409, __('lang.error_request_could_not_be_completed'));
@@ -2735,8 +2742,12 @@ class Leads extends Controller
             abort(409, __('lang.error_request_could_not_be_completed'));
         }
 
+        $lead = (request('type') == 'client')
+            ? $this->customerleadmodel::find(request('lead_id'))
+            : $this->leadmodel::find(request('lead_id'));
+
         //validate
-        if (!$this->leadmodel::find(request('lead_id'))) {
+        if (!$lead) {
             abort(409, __('lang.error_request_could_not_be_completed'));
         }
 
@@ -2744,17 +2755,25 @@ class Leads extends Controller
         $leads = $this->leadrepo->search(request('lead_id'));
         $lead = $leads->first();
 
+        if ($lead instanceof \App\Models\Lead && $lead->lead_converted == "yes") {
+            abort(409, __('lang.error_request_could_not_be_completed_converted_lead'));
+        }
+
         //old status
         $old_status = $lead->lead_status;
 
         //(scenario - 1) card is placed in between 2 other cards
         if (is_numeric(request('previous_lead_id')) && is_numeric(request('next_lead_id'))) {
+            //determine types (fallback to moved card type if specific type not provided)
+            $previous_type = request()->filled('previous_lead_type') ? request('previous_lead_type') : request('type');
+            $next_type = request()->filled('next_lead_type') ? request('next_lead_type') : request('type');
+
             //get previous lead
-            if (!$previous_lead = $this->leadmodel::find(request('previous_lead_id'))) {
+            if (!$previous_lead = ($previous_type == 'client') ? $this->customerleadmodel::find(request('previous_lead_id')) : $this->leadmodel::find(request('previous_lead_id'))) {
                 abort(409, __('lang.error_request_could_not_be_completed'));
             }
             //get next lead
-            if (!$next_lead = $this->leadmodel::find(request('next_lead_id'))) {
+            if (!$next_lead = ($next_type == 'client') ? $this->customerleadmodel::find(request('next_lead_id')) : $this->leadmodel::find(request('next_lead_id'))) {
                 abort(409, __('lang.error_request_could_not_be_completed'));
             }
             //calculate this leads new position & update it
@@ -2766,8 +2785,10 @@ class Leads extends Controller
 
         //(scenario - 2) card is placed at the end of a list
         if (is_numeric(request('previous_lead_id')) && !request()->filled('next_lead_id')) {
+            //determine previous type (fallback to moved card type)
+            $previous_type = request()->filled('previous_lead_type') ? request('previous_lead_type') : request('type');
             //get previous lead
-            if (!$previous_lead = $this->leadmodel::find(request('previous_lead_id'))) {
+            if (!$previous_lead = ($previous_type == 'client') ? $this->customerleadmodel::find(request('previous_lead_id')) : $this->leadmodel::find(request('previous_lead_id'))) {
                 abort(409, __('lang.error_request_could_not_be_completed'));
             }
             //calculate this leads new position & update it
@@ -2779,8 +2800,10 @@ class Leads extends Controller
 
         //(scenario - 3) card is placed at the start of a list
         if (is_numeric(request('next_lead_id')) && !request()->filled('previous_lead_id')) {
+            //determine next type (fallback to moved card type)
+            $next_type = request()->filled('next_lead_type') ? request('next_lead_type') : request('type');
             //get next lead
-            if (!$next_lead = $this->leadmodel::find(request('next_lead_id'))) {
+            if (!$next_lead = ($next_type == 'client') ? $this->customerleadmodel::find(request('next_lead_id')) : $this->leadmodel::find(request('next_lead_id'))) {
                 abort(409, __('lang.error_request_could_not_be_completed'));
             }
             //calculate this leads new position & update it

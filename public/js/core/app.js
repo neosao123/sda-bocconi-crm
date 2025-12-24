@@ -1369,6 +1369,9 @@ function NXHomeAdmin() {
                 onmouseover: function (d, i) { },
                 onmouseout: function (d, i) { }
             },
+            size: {
+                height: 240
+            },
             donut: {
                 label: {
                     show: false
@@ -1383,6 +1386,38 @@ function NXHomeAdmin() {
             },
             color: {
                 pattern: NX.admin_home_c3_leads_colors
+            }
+        });
+    }
+
+
+    if ($("#customerLeadsWidget").length) {
+        var chart = c3.generate({
+            bindto: '#customerLeadsWidget',
+            data: {
+                columns: NX.admin_home_c3_customer_leads_data,
+                type: 'donut',
+                onclick: function (d, i) { },
+                onmouseover: function (d, i) { },
+                onmouseout: function (d, i) { }
+            },
+            size: {
+                height: 240
+            },
+            donut: {
+                label: {
+                    show: false
+                },
+                title: NX.admin_home_c3_customer_leads_title,
+                width: 20,
+
+            },
+
+            legend: {
+                hide: true
+            },
+            color: {
+                pattern: NX.admin_home_c3_customer_leads_colors
             }
         });
     }
@@ -1468,35 +1503,6 @@ if ($("#js-trigger-home-admin-wrapper").length) {
 }
 
 
-/**--------------------------------------------------------------------------------------
- * [HOME PAGE - TEAM] 
- * @blade : home\team\wrapper.blade.php
- * @description: display dashboard widgets
- * -------------------------------------------------------------------------------------*/
-function NXHomeTeam() {
-    //perfect scroll
-    if ($("#dashboard-client-projects").length) {
-        const ps2 = new PerfectScrollbar('#dashboard-client-projects', {
-            wheelSpeed: 2,
-            wheelPropagation: true,
-            minScrollbarLength: 20
-        });
-    }
-
-
-    //perfect scroll
-    if ($("#dashboard-client-events").length) {
-        const ps = new PerfectScrollbar('#dashboard-client-events', {
-            wheelSpeed: 2,
-            wheelPropagation: true,
-            minScrollbarLength: 20
-        });
-    }
-}
-if ($("#js-trigger-home-team-wrapper").length) {
-    NXHomeTeam();
-}
-
 
 /**--------------------------------------------------------------------------------------
  * [HOME PAGE - CLIENT] 
@@ -1520,6 +1526,71 @@ function NXHomeTeam() {
             wheelSpeed: 2,
             wheelPropagation: true,
             minScrollbarLength: 20
+        });
+    }
+
+
+    //leads chart
+    if ($("#leadsWidgetTeam").length) {
+        var chart = c3.generate({
+            bindto: '#leadsWidgetTeam',
+            data: {
+                columns: NX.team_home_c3_leads_data,
+                type: 'donut',
+                onclick: function (d, i) { },
+                onmouseover: function (d, i) { },
+                onmouseout: function (d, i) { }
+            },
+            size: {
+                height: 240
+            },
+            donut: {
+                label: {
+                    show: false
+                },
+                title: NX.team_home_c3_leads_title,
+                width: 20,
+
+            },
+
+            legend: {
+                hide: true
+            },
+            color: {
+                pattern: NX.team_home_c3_leads_colors
+            }
+        });
+    }
+
+
+    if ($("#customerLeadsWidgetTeam").length) {
+        var chart = c3.generate({
+            bindto: '#customerLeadsWidgetTeam',
+            data: {
+                columns: NX.team_home_c3_customer_leads_data,
+                type: 'donut',
+                onclick: function (d, i) { },
+                onmouseover: function (d, i) { },
+                onmouseout: function (d, i) { }
+            },
+            size: {
+                height: 240
+            },
+            donut: {
+                label: {
+                    show: false
+                },
+                title: NX.team_home_c3_customer_leads_title,
+                width: 20,
+
+            },
+
+            legend: {
+                hide: true
+            },
+            color: {
+                pattern: NX.team_home_c3_customer_leads_colors
+            }
         });
     }
 }
@@ -1554,7 +1625,7 @@ function NXHomeClient() {
         });
     }
 }
-if ($("#js-trigger-home-team-wrapper").length) {
+if ($("#js-trigger-home-client-wrapper").length) {
     NXHomeClient();
 }
 
@@ -1825,39 +1896,53 @@ function NXLeadsKanban() {
                     }, 600);
                 }, 100);
 
-                //this card id
+                //this card id and type
                 var this_lead_id = $(card).attr('data-lead-id');
+                var this_lead_type = $(card).attr('data-lead-type');
 
-                //previous card's lead  id
-                var previous_list = $(card).prevAll()
+                //previous card's lead id and type
                 var previous_lead_id = '';
-                previous_list.each(function () {
-                    if ($(this).hasClass('kanban-card')) {
-                        previous_lead_id = $(this).attr('data-lead-id');
-                        return false;
-                    }
-                });
-
-                //next card's lead id
-                var next_lead_id = $(card).next('.kanban-card').attr('data-lead-id');
-                if (typeof next_lead_id == 'undefined') {
-                    next_lead_id = '';
+                var previous_lead_type = '';
+                var prev_card = $(card).prevAll('.kanban-card').first();
+                if (prev_card.length) {
+                    previous_lead_id = prev_card.attr('data-lead-id');
+                    previous_lead_type = prev_card.attr('data-lead-type');
                 }
+
+
+                //next card's lead id and type
+                var next_lead_id = '';
+                var next_lead_type = '';
+                var next_card = $(card).nextAll('.kanban-card').first();
+                if (next_card.length) {
+                    next_lead_id = next_card.attr('data-lead-id');
+                    next_lead_type = next_card.attr('data-lead-type');
+                }
+
 
                 //board
                 var board_name = $(card).parent('.kanban-content').attr('data-board-name');
 
-                //ajax update request
-                var update_position = $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    type: 'post',
-                    url: lead_position,
-                    dataType: 'json',
-                    data: 'lead_id=' + this_lead_id + '&previous_lead_id=' + previous_lead_id +
-                        '&next_lead_id=' + next_lead_id + '&status=' + board_name,
+                //make a virtual ajax request
+                var virtualDom = $('<div>', {
+                    attr: {
+                        'data-url': lead_position,
+                        'data-ajax-type': 'post',
+                        'data-progress-bar': 'hidden'
+                    }
                 });
+                var virtualPostArray = {
+                    lead_id: this_lead_id,
+                    lead_type: this_lead_type,
+                    previous_lead_id: previous_lead_id,
+                    previous_lead_type: previous_lead_type,
+                    next_lead_id: next_lead_id,
+                    next_lead_type: next_lead_type,
+                    status: board_name,
+                    type: this_lead_type
+                };
+
+                nxAjaxUxRequest(virtualDom, virtualPostArray);
             });
     }
 }
@@ -5339,4 +5424,3 @@ function NXAddEditWorkorder() {
         },
     });
 }
-

@@ -202,6 +202,16 @@ class Home extends Controller
         ]);
         $payload['all_events'] = $this->trackingrepo->search(20);
 
+        //[leads] - alltime
+        $data = $this->widgetLeads('alltime');
+        $payload['leads_stats'] = json_encode($data['leads']['stats']);
+        $payload['leads_key_colors'] = json_encode($data['leads']['colors']);
+        $payload['leads_chart_center_title'] = $data['leads']['title'];
+
+        $payload['customer_leads_stats'] = json_encode($data['customer_leads']['stats']);
+        $payload['customer_leads_key_colors'] = json_encode($data['customer_leads']['colors']);
+        $payload['customer_leads_chart_center_title'] = $data['customer_leads']['title'];
+
         //filter
         request()->merge([
             'filter_assigned' => [auth()->id()],
@@ -307,11 +317,13 @@ class Home extends Controller
 
         //[leads] - alltime
         $data = $this->widgetLeads('alltime');
-        $payload['leads_stats'] = json_encode($data['stats']);
-        $payload['leads_key_colors'] = json_encode($data['leads_key_colors']);
-        $payload['leads_chart_center_title'] = $data['leads_chart_center_title'];
+        $payload['leads_stats'] = json_encode($data['leads']['stats']);
+        $payload['leads_key_colors'] = json_encode($data['leads']['colors']);
+        $payload['leads_chart_center_title'] = $data['leads']['title'];
 
-        // dd($payload);
+        $payload['customer_leads_stats'] = json_encode($data['customer_leads']['stats']);
+        $payload['customer_leads_key_colors'] = json_encode($data['customer_leads']['colors']);
+        $payload['customer_leads_chart_center_title'] = $data['customer_leads']['title'];
 
         //filter payments-today
         $payload['filter_payment_today'] = \Carbon\Carbon::now()->format('Y-m-d');
@@ -328,52 +340,65 @@ class Home extends Controller
      * create a leads widget
      * [UPCOMING] call this via ajax for dynamically changing dashboad filters
      * @param string $filter [alltime|...]  //add as we go
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function widgetLeads($filter)
     {
 
-        $payload['stats'] = [];
-        $payload['leads_key_colors'] = [];
-        $payload['leads_chart_center_title'] = __('lang.leads');
+        $stats = [
+            'leads' => [],
+            'customer_leads' => []
+        ];
 
-        $counter = 0;
+        $colors = [];
+
+        $counters = [
+            'leads' => 0,
+            'customer_leads' => 0
+        ];
 
         //do this for each lead category
         foreach (config('home.lead_statuses') as $status) {
 
             //count all leads
-            if ($filter = 'alltime') {
-                $count = $this->statsrepo->countLeads(
-                    [
-                        'status' => $status['id'],
-                    ]
-                );
-            }
+            $counts = $this->statsrepo->countLeads(['status' => $status['id'], 'assigned' => auth()->id()]);
 
             //add to array
-            $payload['stats'][] = [
-                $status['title'],
-                $count,
-            ];
+            $stats['leads'][] = [$status['title'], $counts['lead_count']];
+            $stats['customer_leads'][] = [$status['title'], $counts['customer_lead_count']];
 
             //add to counter
-            $counter += $count;
+            $counters['leads'] += $counts['lead_count'];
+            $counters['customer_leads'] += $counts['customer_lead_count'];
 
-            $payload['leads_key_colors'][] = $status['colorcode'];
+            $colors[] = $status['colorcode'];
         }
 
-        // no lead in system - display something (No Leads - 100%) in chart
-        if ($counter == 0) {
-            $payload['stats'][] = [
-                'No Leads',
-                1,
-            ];
-            $payload['leads_key_colors'][] = "#eff4f5";
-            $payload['leads_chart_center_title'] = __('lang.no_leads');
+        // Handle empty states
+        $leads_colors = $colors;
+        if ($counters['leads'] == 0) {
+            $stats['leads'] = [['No Leads', 1]];
+            $leads_colors = ["#eff4f5"];
         }
 
-        return $payload;
+        $customer_leads_colors = $colors;
+        if ($counters['customer_leads'] == 0) {
+            $stats['customer_leads'] = [['No Leads', 1]];
+            $customer_leads_colors = ["#eff4f5"];
+        }
+
+        return [
+            'leads' => [
+                'stats' => $stats['leads'],
+                'colors' => $leads_colors,
+                'title' => __('lang.leads')
+            ],
+            'customer_leads' => [
+                'stats' => $stats['customer_leads'],
+                'colors' => $customer_leads_colors,
+                'title' => __('lang.customer_leads')
+            ]
+        ];
     }
     /**
      * basic page setting for this section of the app

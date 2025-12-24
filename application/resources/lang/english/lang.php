@@ -2515,4 +2515,6 @@ return [
 
 
     'not_default' => 'Not Default',
+    'customer_leads' => 'Customer Lead',
+    'error_request_could_not_be_completed_converted_lead' => "You can not able to change status of this lead, becuase this lead only for reference of converted client lead",
 ];

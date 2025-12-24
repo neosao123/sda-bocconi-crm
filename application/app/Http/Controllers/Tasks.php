@@ -2659,6 +2659,7 @@ class Tasks extends Controller
      */
     public function updatePosition()
     {
+        
         //validation
         if (!request()->filled('status')) {
             abort(409, __('lang.error_request_could_not_be_completed'));
