@@ -41,7 +41,7 @@ return [
 
         'single' => [
             'driver' => 'single',
-            'path' => storage_path('logs/laravel-'.php_sapi_name().'.log'),
+            'path' => storage_path('logs/laravel-' . php_sapi_name() . '.log'),
             'level' => env('APP_LOG_LEVEL'),
         ],
 
@@ -50,6 +50,12 @@ return [
             'path' => storage_path('logs/laravel.log'),
             'level' => env('APP_LOG_LEVEL'),
             'days' => 14,
+        ],
+
+        'cron' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/cron.log'),
+            'level' => 'info',
         ],
 
         'slack' => [

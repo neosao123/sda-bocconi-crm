@@ -11,12 +11,16 @@
  *-----------------------------------------------------------------------------------------------------*/
 
 namespace App\Cronjobs;
+
 use App\Mail\SendQueued;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
-class EmailCron {
+class EmailCron
+{
 
-    public function __invoke() {
+    public function __invoke()
+    {
 
         //[MT] - tenants only
         if (env('MT_TPYE')) {
@@ -31,7 +35,7 @@ class EmailCron {
 
         //delete emails without an email address
         \App\Models\EmailQueue::Where('emailqueue_to', '')->delete();
-
+        Log::info("called email queue");
         /**
          * Send emails
          *   These emails are being sent every minute. You can set a higher or lower sending limit.
@@ -40,7 +44,7 @@ class EmailCron {
         if ($emails = \App\Models\EmailQueue::Where('emailqueue_type', 'general')->where('emailqueue_status', 'new')->take($limit)->get()) {
 
             //log that its run
-            //Log::info("some emails were found", ['process' => '[cronjob][email-processing]', config('app.debug_ref'), 'function' => __function__, 'file' => basename(__FILE__), 'line' => __line__, 'path' => __file__, 'payload' => $emails]);
+            Log::info("some emails were found", ['process' => '[cronjob][email-processing]', config('app.debug_ref'), 'function' => __function__, 'file' => basename(__FILE__), 'line' => __line__, 'path' => __file__, 'payload' => $emails]);
 
             //mark all emails in the batch as processing - to avoid batch duplicates/collisions
             foreach ($emails as $email) {

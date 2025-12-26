@@ -6,7 +6,8 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Mail;
 
-class Kernel extends ConsoleKernel {
+class Kernel extends ConsoleKernel
+{
     /**
      * The Artisan commands provided by your application.
      *
@@ -28,7 +29,12 @@ class Kernel extends ConsoleKernel {
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
-    protected function schedule(Schedule $schedule) {
+    protected function schedule(Schedule $schedule)
+    {
+
+        $schedule->call(function () {
+            \Log::channel('cron')->info('schedule:run cron hit at ' . now());
+        })->everyMinute();
 
         //updating cron
         $schedule->call(new \App\Cronjobs\UpdatingCron)->everyMinute();
@@ -42,32 +48,32 @@ class Kernel extends ConsoleKernel {
         //send pdf generating emails (invoice & estimate)
         $schedule->call(new \App\Cronjobs\EmailBillsCron)->everyMinute();
 
-        //process webhooks for all onetime payments
-        $schedule->call(new \App\Cronjobs\Onetime\OnetimePayment)->everyMinute();
+        // //process webhooks for all onetime payments
+        // $schedule->call(new \App\Cronjobs\Onetime\OnetimePayment)->everyMinute();
 
-        //process webhooks for stripe subsription payments
-        $schedule->call(new \App\Cronjobs\Stripe\SubscriptionPayment)->everyMinute();
+        // //process webhooks for stripe subsription payments
+        // $schedule->call(new \App\Cronjobs\Stripe\SubscriptionPayment)->everyMinute();
 
-        //process webhooks for stripe subsription renewal
-        $schedule->call(new \App\Cronjobs\Stripe\SubscriptionRenewal)->everyMinute();
+        // //process webhooks for stripe subsription renewal
+        // $schedule->call(new \App\Cronjobs\Stripe\SubscriptionRenewal)->everyMinute();
 
-        //process webhooks for stripe cancellation that was initiated in strip
-        $schedule->call(new \App\Cronjobs\Stripe\SubscriptionCancelled)->everyMinute();
+        // //process webhooks for stripe cancellation that was initiated in strip
+        // $schedule->call(new \App\Cronjobs\Stripe\SubscriptionCancelled)->everyMinute();
 
-        //process webhooks for stripe cancellation that was initiated in the dashboard
-        $schedule->call(new \App\Cronjobs\Stripe\SubscriptionPushCancellation)->everyMinute();
+        // //process webhooks for stripe cancellation that was initiated in the dashboard
+        // $schedule->call(new \App\Cronjobs\Stripe\SubscriptionPushCancellation)->everyMinute();
 
-        //process webhooks for stripe subsription renewal
-        $schedule->call(new \App\Cronjobs\Stripe\SubscriptionUpdateTransaction)->hourly();
+        // //process webhooks for stripe subsription renewal
+        // $schedule->call(new \App\Cronjobs\Stripe\SubscriptionUpdateTransaction)->hourly();
 
         //process project progress
         $schedule->call(new \App\Cronjobs\ProjectProgressCron)->everyMinute();
 
-        //recurring invoices cron
-        $schedule->call(new \App\Cronjobs\RecurringInvoicesCron)->everyFiveMinutes();
+        // //recurring invoices cron
+        // $schedule->call(new \App\Cronjobs\RecurringInvoicesCron)->everyFiveMinutes();
 
-        //Invoice statuses & overdue invoice reminders
-        $schedule->call(new \App\Cronjobs\OverdueInvoicesCron)->everyFiveMinutes();
+        // //Invoice statuses & overdue invoice reminders
+        // $schedule->call(new \App\Cronjobs\OverdueInvoicesCron)->everyFiveMinutes();
 
         //Overdue task reminders
         $schedule->call(new \App\Cronjobs\TaskOverdueCron)->everyFiveMinutes();
@@ -82,17 +88,17 @@ class Kernel extends ConsoleKernel {
         $schedule->call(new \App\Cronjobs\ReminderCron)->everyMinute();
 
         //Proposals
-        $schedule->call(new \App\Cronjobs\ProposalsCron)->everyMinute();
+        // $schedule->call(new \App\Cronjobs\ProposalsCron)->everyMinute();
 
         //Cleanup
         $schedule->call(new \App\Cronjobs\Cleanup\OrphanedRecordsCron)->everyMinute();
 
         //tap payments
-        $schedule->call(new \App\Cronjobs\Tap\TapPaymentCron)->everyMinute();
+        // $schedule->call(new \App\Cronjobs\Tap\TapPaymentCron)->everyMinute();
 
         //scheduled tasks
         $schedule->call(new \App\Cronjobs\ScheduledCron)->everyMinute();
-        
+
         //fixes
         $schedule->call(new \App\Cronjobs\Cleanup\FixesCron)->everyMinute();
 
@@ -105,7 +111,8 @@ class Kernel extends ConsoleKernel {
      *
      * @return void
      */
-    protected function commands() {
+    protected function commands()
+    {
         $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');

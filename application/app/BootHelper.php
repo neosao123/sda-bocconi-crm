@@ -64,7 +64,7 @@ function middlewareBootSettings()
 
 
     //cronjob path
-    $settings['cronjob_path'] = '/usr/local/bin/php ' . BASE_DIR . '/application/artisan schedule:run >> /dev/null 2>&1';
+    $settings['cronjob_path'] = '/usr/bin/php ' . BASE_DIR . '/application/artisan schedule:run';
 
     //all team members
     $settings['team_members'] = \App\Models\User::Where('type', 'team')->Where('status', 'active')->get();
@@ -148,6 +148,7 @@ function middlewareBootMail()
         ],
         'mail.data' => [
             'company_name' => config('system.settings_company_name'),
+            'our_company_name' => config('system.settings_company_name'),
             'todays_date' => runtimeDate(date('Y-m-d')),
             'email_signature' => $email_signature,
             'email_footer' => $email_footer,
